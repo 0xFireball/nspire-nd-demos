@@ -1,4 +1,6 @@
 
+#pragma once
+
 #include "../deps.h"
 
 class BaseDemoState : public NState {
