@@ -4,6 +4,7 @@
 #include "../deps.h"
 
 class BaseDemoState : public NState {
+public:
     virtual void update(float dt) {
         bool esc = this->game->keys->pressed(SDLK_ESCAPE);
         if (esc) {
