@@ -10,7 +10,7 @@ class BaseDemoState : public NState {
             this->game->quit();
         }
 
-        bool nextDemo = this->game->keys->pressed(SDLK_TAB);
+        bool nextDemo = this->game->keys->justPressed(SDLK_TAB, game->get_frame_count());
         if (nextDemo) {
             Reg::currentDemo++;
             Reg::currentDemo %= (int)Reg::demoStates.size();

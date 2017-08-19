@@ -5,6 +5,7 @@
 #include "reg.h"
 
 #include "states/IntroState.h"
+#include "states/TweenDemoState.h"
 
 int main(int argc, char **argv) {
     auto game = std::make_shared<NGame>();
@@ -12,6 +13,7 @@ int main(int argc, char **argv) {
     game->platform_init(argc, argv);
 
     Reg::demoStates.push_back(std::make_shared<IntroState>());
+    Reg::demoStates.push_back(std::make_shared<TweenDemoState>());
 
     // Initialize NGame at max screen size, 30FPS target
     game->init(0, 0, 30);
