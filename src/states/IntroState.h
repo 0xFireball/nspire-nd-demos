@@ -1,6 +1,7 @@
 
 #include "../deps.h"
+#include "BaseDemoState.h"
 
-class IntroState : public NState {
+class IntroState : public BaseDemoState {
 
 };
