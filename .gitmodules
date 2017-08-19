@@ -1,0 +1,3 @@
+[submodule "nspire-nd"]
+	path = nspire-nd
+	url = https://github.com/0xFireball/nspire-nd.git
