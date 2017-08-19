@@ -1,4 +1,4 @@
-PRG_NAME = pong
+PRG_NAME = nd-demos
 
 DEBUG = FALSE
 XPLAT_TARGET=nspire
