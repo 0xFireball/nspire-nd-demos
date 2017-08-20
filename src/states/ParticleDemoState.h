@@ -11,11 +11,12 @@ public:
     std::shared_ptr<Ball> ball;
 
     virtual void create() {
-        ball = std::make_shared<Ball>(game->width / 2, game->height / 2);
-        add(ball);
-
         emitter = std::make_shared<NParticleEmitter>(40);
         add(emitter);
+
+        ball = std::make_shared<Ball>(game->width / 2, game->height / 2);
+        ball->vel *= 2;
+        add(ball);
 
         BaseDemoState::create();
     }
