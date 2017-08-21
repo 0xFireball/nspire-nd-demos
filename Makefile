@@ -1,7 +1,8 @@
 PRG_NAME = nd-demos
 
 DEBUG = FALSE
-PLATFORM=nspire
+PLATFORM=desktop
+OUTDIR=build
 
 $(info Building for xplat target [${PLATFORM}])
 
@@ -55,7 +56,6 @@ OBJS = $(patsubst %.c, %.o, $(shell find . -name \*.c))
 OBJS += $(patsubst %.cpp, %.o, $(shell find . -name \*.cpp))
 OBJS += $(patsubst %.S, %.o, $(shell find . -name \*.S))
 EXE = $(PRG_NAME)
-OUTDIR = .
 
 ifeq ($(PLATFORM), nspire)
 TARGETBIN=$(OUTDIR)/$(EXE).prg.tns
@@ -103,4 +103,4 @@ clean:
 	find . -name \*.o -type f -delete
 	rm -f $(OUTDIR)/*.tns $(OUTDIR)/$(EXE).elf $(TARGETBIN)
 
-.PHONY: all clean
+.PHONY: all assets clean

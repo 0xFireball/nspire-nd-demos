@@ -2,6 +2,7 @@ linux/
 win/
 binspire/
 cyg/
+build/
 
 # Created by https://www.gitignore.io/api/c++
 
