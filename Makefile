@@ -56,9 +56,6 @@ OBJS += $(patsubst %.cpp, %.o, $(shell find . -name \*.cpp))
 OBJS += $(patsubst %.S, %.o, $(shell find . -name \*.S))
 EXE = $(PRG_NAME)
 DISTDIR = .
-vpath %.tns $(DISTDIR)
-vpath %.elf $(DISTDIR)
-vpath %.$(DESKEXT) $(DISTDIR)
 
 ifeq ($(XPLAT_TARGET), nspire)
 TARGET=$(DISTDIR)/$(EXE).prg.tns
