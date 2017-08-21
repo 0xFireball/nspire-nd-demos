@@ -28,12 +28,18 @@ else ifeq ($(XPLAT_TARGET), desktop)
 	CFLAGS += -Ddesktop
 endif
 
+DESKEXT = bin
+LINKLIBS =
+
 CYGWIN = FALSE
 ifeq ($(CYGWIN), 1)
 $(info Enabling support for Cygwin/Windows: [${CYGWIN}])
-	CFLAGS += -Lcyg/lib -Icyg/include -lmingw32 -lSDLmain -lSDL -lSDL_image -lSDL_gfx -mwindows
+	CFLAGS += -Lcyg/lib -Icyg/include -mwindows
+	LINKLIBS += -lmingw32 -lSDLmain -lSDL -lSDL_image -lSDL_gfx
+	DESKEXT = exe
 else
-	CFLAGS += -I/usr/include/SDL -lSDL -lSDL_gfx
+	CFLAGS += -I/usr/include/SDL
+	LINKLIBS += -lSDL -lSDL_gfx
 endif
 
 ifeq ($(DEBUG),FALSE)
@@ -52,12 +58,12 @@ EXE = $(PRG_NAME)
 DISTDIR = .
 vpath %.tns $(DISTDIR)
 vpath %.elf $(DISTDIR)
-vpath %.bin $(DISTDIR)
+vpath %.$(DESKEXT) $(DISTDIR)
 
 ifeq ($(XPLAT_TARGET), nspire)
 nspire: $(EXE).prg.tns
 else ifeq ($(XPLAT_TARGET), desktop)
-desktop: $(EXE).bin
+desktop: $(EXE).$(DESKEXT)
 endif
 
 CXXFILES = $(shell find . -name \*.cpp)
@@ -81,9 +87,9 @@ $(EXE).elf: $(CXXFILES) $(HEADERFILES)
 
 else ifeq ($(XPLAT_TARGET), desktop)
 
-$(EXE).bin: $(CXXFILES) $(HEADERFILES)
+$(EXE).$(DESKEXT): $(CXXFILES) $(HEADERFILES)
 	mkdir -p $(DISTDIR)
-	$(GXX) $(CFLAGS) $(CXXFILES) -o $(DISTDIR)/$(EXE).bin
+	$(GXX) $(CFLAGS) $(CXXFILES) $(LINKLIBS) -o $(DISTDIR)/$(EXE).$(DESKEXT)
 
 endif
 
@@ -94,4 +100,4 @@ assets:
 
 clean:
 	find . -name \*.o -type f -delete
-	rm -f $(DISTDIR)/*.tns $(DISTDIR)/$(EXE).elf $(DISTDIR)/$(EXE).bin
+	rm -f $(DISTDIR)/*.tns $(DISTDIR)/$(EXE).elf $(DISTDIR)/$(EXE).$(DESKEXT)
