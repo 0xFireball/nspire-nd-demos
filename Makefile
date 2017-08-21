@@ -79,8 +79,6 @@ assets: $(ASSET_FILES)
 dirs:
 	mkdir -p $(DISTDIR)
 
-exe: $(TARGET) # Target executable
-
 CXXFILES = $(shell find . -name \*.cpp)
 HEADERFILES = $(shell find . -name \*.h)
 
