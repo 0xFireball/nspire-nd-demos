@@ -61,43 +61,51 @@ vpath %.elf $(DISTDIR)
 vpath %.$(DESKEXT) $(DISTDIR)
 
 ifeq ($(XPLAT_TARGET), nspire)
-nspire: $(EXE).prg.tns
+TARGET=$(DISTDIR)/$(EXE).prg.tns
 else ifeq ($(XPLAT_TARGET), desktop)
-desktop: $(EXE).$(DESKEXT)
+TARGET=$(DISTDIR)/$(EXE).$(DESKEXT)
 endif
+
+all: res exe
+
+res: dirs assets
+
+ASSET_PATH = ./assets
+ASSET_FILES = $(shell find $(ASSET_PATH) -name \*.\*)
+assets: $(ASSET_FILES)
+	$(info Copying assets)
+	cp -r $^ $(DISTDIR)
+
+dirs:
+	mkdir -p $(DISTDIR)
+
+exe: $(TARGET) # Target executable
 
 CXXFILES = $(shell find . -name \*.cpp)
 HEADERFILES = $(shell find . -name \*.h)
 
 $(info Compile: [${GXX} ${CFLAGS}])
 
-.PHONY: all clean assets
-
 ifeq ($(XPLAT_TARGET), nspire)
+
+exe: $(EXE).tns
+	make-prg $(DISTDIR)/$^ $(TARGET)
 
 $(EXE).tns: $(EXE).elf
 	$(GENZEHN) --input $(DISTDIR)/$^ --output $(DISTDIR)/$@ $(ZEHNFLAGS)
 
-$(EXE).prg.tns: $(EXE).tns
-	make-prg $(DISTDIR)/$^ $(DISTDIR)/$@
-
 $(EXE).elf: $(CXXFILES) $(HEADERFILES)
-	mkdir -p $(DISTDIR)
 	$(GXX) $(CFLAGS) $(CXXFILES) -o $(DISTDIR)/$(EXE).elf
 
 else ifeq ($(XPLAT_TARGET), desktop)
 
-$(EXE).$(DESKEXT): $(CXXFILES) $(HEADERFILES)
-	mkdir -p $(DISTDIR)
-	$(GXX) $(CFLAGS) $(CXXFILES) $(LINKLIBS) -o $(DISTDIR)/$(EXE).$(DESKEXT)
+exe: $(CXXFILES) $(HEADERFILES)
+	$(GXX) $(CFLAGS) $(CXXFILES) $(LINKLIBS) -o $(TARGET)
 
 endif
-
-ASSET_PATH = ./assets
-assets:
-	$(info Copying assets)
-	cp -r $(ASSET_PATH)/* $(DISTDIR)
 
 clean:
 	find . -name \*.o -type f -delete
 	rm -f $(DISTDIR)/*.tns $(DISTDIR)/$(EXE).elf $(DISTDIR)/$(EXE).$(DESKEXT)
+
+.PHONY: all clean
