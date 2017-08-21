@@ -106,6 +106,6 @@ endif
 
 clean:
 	find . -name \*.o -type f -delete
-	rm -f $(DISTDIR)/*.tns $(DISTDIR)/$(EXE).elf $(DISTDIR)/$(EXE).$(DESKEXT)
+	rm -f $(DISTDIR)/*.tns $(DISTDIR)/$(EXE).elf $(TARGET)
 
 .PHONY: all clean
