@@ -1,11 +1,11 @@
 PRG_NAME = nd-demos
 
 DEBUG = FALSE
-XPLAT_TARGET=nspire
+PLATFORM=nspire
 
-$(info Building for xplat target [${XPLAT_TARGET}])
+$(info Building for xplat target [${PLATFORM}])
 
-ifeq ($(XPLAT_TARGET), nspire)
+ifeq ($(PLATFORM), nspire)
 GCC = nspire-gcc
 AS  = nspire-as
 GXX = nspire-g++
@@ -22,9 +22,9 @@ CFLAGS += -Wall -W --std=c++14
 LDFLAGS =
 ZEHNFLAGS = --name $(PRG_NAME)
 
-ifeq ($(XPLAT_TARGET), nspire)
+ifeq ($(PLATFORM), nspire)
 	CFLAGS += -marm -Dnspire
-else ifeq ($(XPLAT_TARGET), desktop)
+else ifeq ($(PLATFORM), desktop)
 	CFLAGS += -Ddesktop
 endif
 
@@ -55,12 +55,12 @@ OBJS = $(patsubst %.c, %.o, $(shell find . -name \*.c))
 OBJS += $(patsubst %.cpp, %.o, $(shell find . -name \*.cpp))
 OBJS += $(patsubst %.S, %.o, $(shell find . -name \*.S))
 EXE = $(PRG_NAME)
-DISTDIR = .
+OUTDIR = .
 
-ifeq ($(XPLAT_TARGET), nspire)
-TARGET=$(DISTDIR)/$(EXE).prg.tns
-else ifeq ($(XPLAT_TARGET), desktop)
-TARGET=$(DISTDIR)/$(EXE).$(DESKEXT)
+ifeq ($(PLATFORM), nspire)
+TARGETBIN=$(OUTDIR)/$(EXE).prg.tns
+else ifeq ($(PLATFORM), desktop)
+TARGETBIN=$(OUTDIR)/$(EXE).$(DESKEXT)
 endif
 
 all: res exe
@@ -71,36 +71,36 @@ ASSET_PATH = ./assets
 ASSET_FILES = $(shell find $(ASSET_PATH) -name \*.\*)
 assets: $(ASSET_FILES)
 	$(info Copying assets)
-	cp -r $^ $(DISTDIR)
+	cp -r $^ $(OUTDIR)
 
 dirs:
-	mkdir -p $(DISTDIR)
+	mkdir -p $(OUTDIR)
 
 CXXFILES = $(shell find . -name \*.cpp)
 HEADERFILES = $(shell find . -name \*.h)
 
 $(info Compile: [${GXX} ${CFLAGS}])
 
-ifeq ($(XPLAT_TARGET), nspire)
+ifeq ($(PLATFORM), nspire)
 
 exe: $(EXE).tns
-	make-prg $(DISTDIR)/$^ $(TARGET)
+	make-prg $(OUTDIR)/$^ $(TARGETBIN)
 
 $(EXE).tns: $(EXE).elf
-	$(GENZEHN) --input $(DISTDIR)/$^ --output $(DISTDIR)/$@ $(ZEHNFLAGS)
+	$(GENZEHN) --input $(OUTDIR)/$^ --output $(OUTDIR)/$@ $(ZEHNFLAGS)
 
 $(EXE).elf: $(CXXFILES) $(HEADERFILES)
-	$(GXX) $(CFLAGS) $(CXXFILES) -o $(DISTDIR)/$(EXE).elf
+	$(GXX) $(CFLAGS) $(CXXFILES) -o $(OUTDIR)/$(EXE).elf
 
-else ifeq ($(XPLAT_TARGET), desktop)
+else ifeq ($(PLATFORM), desktop)
 
 exe: $(CXXFILES) $(HEADERFILES)
-	$(GXX) $(CFLAGS) $(CXXFILES) $(LINKLIBS) -o $(TARGET)
+	$(GXX) $(CFLAGS) $(CXXFILES) $(LINKLIBS) -o $(TARGETBIN)
 
 endif
 
 clean:
 	find . -name \*.o -type f -delete
-	rm -f $(DISTDIR)/*.tns $(DISTDIR)/$(EXE).elf $(TARGET)
+	rm -f $(OUTDIR)/*.tns $(OUTDIR)/$(EXE).elf $(TARGETBIN)
 
 .PHONY: all clean
