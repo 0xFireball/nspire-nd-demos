@@ -12,6 +12,7 @@
 int main(int argc, char **argv) {
     auto game = std::make_shared<NGame>();
 
+    // set up system for game
     game->platform_init(argc, argv);
 
     Reg::demoStates.push_back(std::make_shared<IntroState>());
@@ -25,6 +26,9 @@ int main(int argc, char **argv) {
     game->switch_state(Reg::demoStates[Reg::currentDemo]);
     // game->switch_state(std::make_shared<IntroState>());
     game->start();
+
+    // clean up
+    game->platform_deinit();
 
     return 0;
 }
