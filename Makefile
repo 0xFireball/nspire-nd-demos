@@ -36,11 +36,11 @@ CYGWIN = FALSE
 ifeq ($(CYGWIN), 1)
 $(info Enabling support for Cygwin/Windows: [${CYGWIN}])
 	CFLAGS += -Lcyg/lib -Icyg/include -mwindows
-	LINKLIBS += -lmingw32 -lSDLmain -lSDL -lSDL_image -lSDL_gfx
+	LINKLIBS += -lmingw32 -lSDLmain -lSDL -lSDL_image -lSDL_gfx -lSDL_ttf
 	DESKEXT = exe
 else
 	CFLAGS += -I/usr/include/SDL
-	LINKLIBS += -lSDL -lSDL_gfx
+	LINKLIBS += -lSDL -lSDL_gfx -lSDL_ttf
 endif
 
 ifeq ($(DEBUG),FALSE)
