@@ -7,7 +7,7 @@
 #include "states/IntroState.h"
 #include "states/TweenDemoState.h"
 #include "states/ParticleDemoState.h"
-#include "states/SceneDemoState.h"
+#include "states/RainParticleState.h"
 #include "states/ScrollCameraState.h"
 
 int main(int argc, char **argv) {
@@ -19,7 +19,7 @@ int main(int argc, char **argv) {
     Reg::demoStates.push_back(std::make_shared<IntroState>());
     Reg::demoStates.push_back(std::make_shared<TweenDemoState>());
     Reg::demoStates.push_back(std::make_shared<ParticleDemoState>());
-    Reg::demoStates.push_back(std::make_shared<SceneDemoState>());
+    Reg::demoStates.push_back(std::make_shared<RainParticleState>());
     Reg::demoStates.push_back(std::make_shared<ScrollCameraState>());
 
     
