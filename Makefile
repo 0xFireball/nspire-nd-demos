@@ -20,13 +20,15 @@ LD = ld
 endif
 
 CFLAGS += -Wall -W --std=c++14
+DEFINES =
 LDFLAGS =
 ZEHNFLAGS = --name $(PRG_NAME)
 
 ifeq ($(PLATFORM), nspire)
-	CFLAGS += -marm -Dnspire
+	CFLAGS += -marm
+	DEFINES += -Dnspire
 else ifeq ($(PLATFORM), desktop)
-	CFLAGS += -Ddesktop
+	DEFINES += -Ddesktop
 endif
 
 DESKEXT = bin
@@ -36,11 +38,11 @@ CYGWIN = FALSE
 ifeq ($(CYGWIN), 1)
 $(info Enabling support for Cygwin/Windows: [${CYGWIN}])
 	CFLAGS += -Lcyg/lib -Icyg/include -mwindows
-	LINKLIBS += -lmingw32 -lSDLmain -lSDL -lSDL_image -lSDL_gfx -lSDL_ttf
+	LINKLIBS += -lmingw32 -lSDLmain -lSDL -lSDL_image -lSDL_gfx
 	DESKEXT = exe
 else
 	CFLAGS += -I/usr/include/SDL
-	LINKLIBS += -lSDL -lSDL_gfx -lSDL_ttf
+	LINKLIBS += -lSDL -lSDL_gfx
 endif
 
 ifeq ($(DEBUG),FALSE)
@@ -48,6 +50,13 @@ ifeq ($(DEBUG),FALSE)
 else
 	CFLAGS += -O0 -g
 endif
+
+ifeq ($(ENABLE_TTF), 1)
+	LINKLIBS += -lSDL_ttf
+	DEFINES += ENABLE_TTF
+endif
+
+CFLAGS += $(DEFINES)
 
 ADDFLAGS =
 CFLAGS += $(ADDFLAGS)

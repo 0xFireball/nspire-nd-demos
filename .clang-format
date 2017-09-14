@@ -1,0 +1,9 @@
+#Want to change something? http://clang.llvm.org/docs/ClangFormatStyleOptions.html
+
+BasedOnStyle: WebKit
+UseTab: Never
+IndentWidth: 4
+BreakBeforeBraces: BS_WebKit
+AllowShortIfStatementsOnASingleLine: false
+IndentCaseLabels: false
+ColumnLimit: 0
