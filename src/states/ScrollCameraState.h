@@ -8,6 +8,8 @@ class ScrollCameraState : public BaseDemoState {
 private:
   std::shared_ptr<NSprite> _player;
   static const int PLAYER_SPEED = 100;
+  std::shared_ptr<NGroup<NEntity>> _things;
+  std::unique_ptr<NCollision> collision;
 
 public:
   virtual void create() {
@@ -15,16 +17,23 @@ public:
     _player->makeGraphic(10, 10, NColor::fromRGBInt(252, 233, 32));
     add(_player);
 
+    _things = std::make_shared<NGroup<NEntity>>();
+
     auto box = std::make_shared<NSprite>(40, 40);
     box->makeGraphic(20, 20, NColor::fromRGBInt(216, 205, 86));
-    add(box);
+    _things->add(box);
+
+    add(_things);
 
     prepareCamera();
+
+    collision =
+        std::make_unique<NCollision>(Rect(0, 0, game->width, game->height));
 
     BaseDemoState::create();
   }
 
-  virtual void update(float dt) {
+  void movement(float dt) {
     std::vector<int> upKeys{SDLK_UP, SDLK_8};
     bool up = Reg::game->keys->anyPressed(upKeys);
     std::vector<int> downKeys{SDLK_DOWN, SDLK_2};
@@ -52,6 +61,16 @@ public:
     } else if (right) {
       _player->x += PLAYER_SPEED * dt;
     }
+  }
+
+  virtual void update(float dt) {
+    movement(dt);
+
+    // collide with things
+    // collision->collide(_player, _things);
+    collision->overlap(_player, _things, [](NEntityRef pl, NEntityRef th) -> void {
+      std::cout << " ovl: " << pl->x << th->x << std::endl;
+    });
 
     BaseDemoState::update(dt);
   }

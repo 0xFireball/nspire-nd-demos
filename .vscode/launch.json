@@ -27,7 +27,7 @@
             "program": "${workspaceRoot}/win/nd-demos.exe",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${workspaceRoot}",
+            "cwd": "${workspaceRoot}/win",
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",
