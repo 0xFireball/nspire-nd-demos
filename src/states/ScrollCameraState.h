@@ -72,6 +72,7 @@ public:
     movement(dt);
 
     // collide with things
+    collision->collide(_things, _things);
     collision->collide(_player, _things);
 
     BaseDemoState::update(dt);
