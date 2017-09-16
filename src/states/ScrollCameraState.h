@@ -19,9 +19,14 @@ public:
 
     _things = std::make_shared<NGroup<NEntity>>();
 
-    auto box = std::make_shared<NSprite>(40, 40);
-    box->makeGraphic(20, 20, NColor::fromRGBInt(216, 205, 86));
-    _things->add(box);
+    auto box1 = std::make_shared<NSprite>(40, 40);
+    box1->makeGraphic(20, 20, NColor::fromRGBInt(201, 193, 52));
+    _things->add(box1);
+
+    auto box2 = std::make_shared<NSprite>(160, 70);
+    box2->makeGraphic(35, 35, NColor::fromRGBInt(137, 134, 74));
+    box2->immovable = true;
+    _things->add(box2);
 
     add(_things);
 
