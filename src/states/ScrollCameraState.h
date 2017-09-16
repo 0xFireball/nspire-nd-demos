@@ -67,10 +67,7 @@ public:
     movement(dt);
 
     // collide with things
-    // collision->collide(_player, _things);
-    collision->overlap(_player, _things, [](NEntityRef pl, NEntityRef th) -> void {
-      std::cout << " ovl: " << pl->x << th->x << std::endl;
-    });
+    collision->collide(_player, _things);
 
     BaseDemoState::update(dt);
   }
