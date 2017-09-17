@@ -9,6 +9,7 @@
 #include "states/ParticleDemoState.h"
 #include "states/RainParticleState.h"
 #include "states/ScrollCameraState.h"
+#include "states/TilemapDemoState.h"
 
 int main(int argc, char **argv) {
     auto game = std::make_shared<NGame>();
@@ -16,11 +17,12 @@ int main(int argc, char **argv) {
     // set up system for game
     game->platform_init(argc, argv);
 
-    Reg::demoStates.push_back(std::make_shared<IntroState>());
-    Reg::demoStates.push_back(std::make_shared<TweenDemoState>());
+    // Reg::demoStates.push_back(std::make_shared<IntroState>());
+    // Reg::demoStates.push_back(std::make_shared<TweenDemoState>());
     Reg::demoStates.push_back(std::make_shared<ParticleDemoState>());
     Reg::demoStates.push_back(std::make_shared<RainParticleState>());
     Reg::demoStates.push_back(std::make_shared<ScrollCameraState>());
+    Reg::demoStates.push_back(std::make_shared<TilemapDemoState>());
 
     
     // Initialize NGame at max screen size, 30FPS target
